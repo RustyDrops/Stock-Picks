@@ -28,15 +28,32 @@ Copy and paste this to initiate the multi-agent workflow:
 - **Task:** Select the absolute "Top 3" setups.
 - **Action:** Generate a Markdown file named `CURRENT_DATE_HH-MM_EST.md`.
 
+**AGENT 4: THE PERFORMANCE AUDITOR (Historical Tracking)**
+- **Task:** Search the workspace for trade reports from approximately 7, 14, 21, and 28 days ago.
+- **Action:** For each identified trade, perform a price audit (High/Low/Current) since the trade date.
+- **Logic:** 
+    - **Stop Loss:** If Price <= SL, mark "STOPPED OUT" and cease future reporting.
+    - **Target Hit:** If Price >= TP, mark "TARGET HIT" and activate a **5% Trailing Stop** (minimum level = Entry).
+    - **Audit:** Execute `audit_trades.ps1` to calculate the ledger.
+
 **REPORT FORMAT:**
 1. **Final Report Summary**: Executive summary of top picks and market regime.
 2. **Top 3 Setups**: Detailed Asset, Risk, Entry, Target (TP), Stop (SL), Size, Horizon, and Reason.
-   - **MANDATORY**: You MUST provide only the **Final Direct URL** (the destination address). Do NOT include the grounded search redirect links in the report.
-   - **MANDATORY**: You MUST execute the `resolve_links.ps1` script to follow any grounded redirects and extract the final destination before writing the report.
-3. **Research Audit**: A quantitative summary of the research effort.
+3. **Historical Performance Audit**: A ledger table showing the results of AGENT 4's audit for trades 7, 14, 21, and 28 days old.
+4. **Research Audit**: A quantitative summary of the research effort.
 ```
 
 ## Agent Architecture
 - **Scanner:** Filtering the noise.
 - **Analyst:** Enforcing technical and fundamental discipline.
 - **Architect:** Final selection and risk management.
+- **Auditor:** Post-trade analysis and trailing stop management.
+
+## Example Performance Audit Ledger
+This table demonstrates how AGENT 4 reports historical trade performance:
+
+| Trade Date | Ticker | Status | Current P/L | 7D High/Low | Notes |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 2026-04-18 | NVDA | TARGET HIT (TRAILING) | 15.71% | 208.27 / 178 | Target hit! Trailing Stop active at 197.86. |
+| 2026-04-18 | TSLA | STOPPED OUT | -2.78% | 182 / 160 | Hit Hard Stop at 175. |
+| 2026-04-18 | AAPL | ACTIVE | 4.23% | 272 / 260 | Maintaining above support. |
