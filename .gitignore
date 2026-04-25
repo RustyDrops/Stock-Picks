@@ -1,4 +1,12 @@
 .gemini/
 gha-creds-*.json
-.github/
+
+# Ignore everything in .github
+.github/*
+# But allow the workflows directory
+!.github/workflows/
+# Ignore everything in workflows
+.github/workflows/*
+# But allow the specific jules-automerge.yml file
+!.github/workflows/jules-automerge.yml
 

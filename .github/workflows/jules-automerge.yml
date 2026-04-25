@@ -1,0 +1,28 @@
+name: Jules Auto-Merge Gatekeeper
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  automerge-jules:
+    if: github.actor == 'google-labs-jules'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      # 1. Automatically approve the PR (Required if you have branch protection)
+      - name: Auto-approve Jules PR
+        uses: hmarr/auto-approve-action@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Enable Auto-Merge via GitHub CLI
+      - name: Enable Auto-Merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr merge "$PR_URL" --auto --squash
