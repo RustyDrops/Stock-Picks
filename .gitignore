@@ -10,3 +10,21 @@ gha-creds-*.json
 # But allow the specific jules-automerge.yml file
 !.github/workflows/jules-automerge.yml
 
+audit_fetch.py\naudit_trades.py\nscreener.py\ngenerate_report.py\ntrades_data.json\nresearch_audit.json\nsetups.md\n
+2026-*.md
+!2026-04-25_04-36_EST.md
+!2026-04-27_07-55_EST.md
+!2026-04-28_01-08_EST.md
+!2026-04-29_08-47_EST.md
+!2026-04-30_08-43_EST.md
+
+# Output Artifacts
+trades_data.json
+setups.md
+research_audit.json
+2026-*.md
+!2026-04-25_04-36_EST.md
+!2026-04-27_07-55_EST.md
+!2026-04-28_01-08_EST.md
+!2026-04-29_08-47_EST.md
+!2026-04-30_08-43_EST.md
