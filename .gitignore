@@ -10,3 +10,4 @@ gha-creds-*.json
 # But allow the specific jules-automerge.yml file
 !.github/workflows/jules-automerge.yml
 
+venv/
