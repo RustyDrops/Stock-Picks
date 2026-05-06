@@ -1,0 +1,31 @@
+name: Daily Research Prompt
+
+on:
+  schedule:
+    # Execute Monday - Friday at 13:00 UTC (9:00 AM EDT / 8:00 AM EST)
+    - cron: '0 13 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  execute-research-prompt:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Extract Prompt and Create Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Extract the prompt from README.md between the markdown codeblocks
+          # under the "Final Research Prompt (Master)" section
+          PROMPT=$(awk '/## Final Research Prompt \(Master\)/{flag=1; next} /```markdown/{if(flag) {flag=2; next}} /```/{if(flag==2) {flag=0; exit}} flag==2' README.md)
+
+          # Use gh cli to create an issue with the prompt to trigger Jules
+          gh issue create \
+            --title "Daily Research Prompt - $(date +'%Y-%m-%d')" \
+            --body "$PROMPT"
