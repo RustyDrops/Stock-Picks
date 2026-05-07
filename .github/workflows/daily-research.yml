@@ -1,0 +1,33 @@
+name: Daily Research Prompt
+
+on:
+  schedule:
+    # Run at 13:00 UTC Monday-Friday
+    - cron: '0 13 * * 1-5'
+  workflow_dispatch: # Allow manual triggering for testing
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  create_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract Prompt and Create Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Extract the markdown prompt from README.md
+          # It looks for the content between the first ```markdown and ```
+          awk '/^```markdown/{flag=1; next} /^```/{flag=0} flag' README.md > prompt.txt
+
+          # Create the GitHub issue
+          gh issue create \
+            --title "Daily Research Workflow: $(date +'%Y-%m-%d')" \
+            --body-file prompt.txt \
+            --label "automation" \
+            --label "research"

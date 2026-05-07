@@ -9,4 +9,6 @@ gha-creds-*.json
 .github/workflows/*
 # But allow the specific jules-automerge.yml file
 !.github/workflows/jules-automerge.yml
+# Allow the new daily research workflow
+!.github/workflows/daily-research.yml
 
