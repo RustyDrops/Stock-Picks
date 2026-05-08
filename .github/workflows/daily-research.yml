@@ -1,0 +1,49 @@
+name: Daily Research Prompt
+on:
+  schedule:
+    - cron: '0 12 * * 1-5' # Runs at 12:00 UTC, Monday through Friday
+  workflow_dispatch:
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check Day of Week
+        id: day_check
+        run: |
+          DAY=$(date +%u)
+          if [ "$DAY" -eq 6 ] || [ "$DAY" -eq 7 ]; then
+            echo "It's the weekend. Skipping execution."
+            echo "skip=true" >> $GITHUB_ENV
+            exit 0
+          fi
+          echo "It's a weekday. Proceeding."
+          echo "skip=false" >> $GITHUB_ENV
+
+      - name: Extract Prompt and Create Issue
+        if: env.skip == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Extract the markdown section between ```markdown and ```
+          PROMPT=$(awk '/^```markdown/{flag=1; next} /^```/{flag=0} flag' README.md)
+
+          # Use a temporary file to hold the body
+          TEMP_FILE=$(mktemp)
+          echo "$PROMPT" > "$TEMP_FILE"
+
+          DATE=$(date +'%Y-%m-%d')
+
+          # Create an issue with the prompt as the body
+          gh issue create \
+            --title "Daily Research Workflow - $DATE" \
+            --body-file "$TEMP_FILE" \
+            --label "daily-research" || true
+
+          rm "$TEMP_FILE"
