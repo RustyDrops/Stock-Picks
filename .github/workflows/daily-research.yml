@@ -1,0 +1,33 @@
+name: Daily Research Workflow
+
+on:
+  schedule:
+    # Runs at 12:00 UTC on Monday-Friday
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  create-research-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract prompt from README and create issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Extract everything from the first ```markdown to the next ```
+          awk '/^```markdown/{flag=1; next} /^```/{if(flag) {flag=0; exit}} flag' README.md > prompt.txt
+
+          # Get current date for issue title
+          CURRENT_DATE=$(date +"%Y-%m-%d")
+
+          # Create issue using gh cli
+          gh issue create \
+            --title "Daily Research Workflow: ${CURRENT_DATE}" \
+            --body-file prompt.txt \
+            --label "daily-research" || echo "Failed to create issue, but continuing."
