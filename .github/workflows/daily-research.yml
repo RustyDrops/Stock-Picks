@@ -1,0 +1,37 @@
+---
+name: Daily Research Prompt
+"on":
+  schedule:
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  daily_research:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Execute Daily Research Prompt
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DAY_OF_WEEK=$(date +%u)
+          if [ "$DAY_OF_WEEK" -ge 6 ]; then
+            echo "It is Saturday or Sunday. Doing nothing."
+            exit 0
+          else
+            echo "It is Monday - Friday. Executing the README prompt."
+
+            # Extract the prompt from README.md
+            AWK_CMD='/^```markdown/{flag=1; next} '
+            AWK_CMD+='/^```/{if(flag) {flag=0; exit}} flag'
+            PROMPT=$(awk "$AWK_CMD" README.md)
+
+            # Create an issue with the prompt to trigger agents
+            TITLE="Daily Research Execution - $(date +'%Y-%m-%d')"
+            gh issue create --title "$TITLE" --body "$PROMPT"
+          fi
