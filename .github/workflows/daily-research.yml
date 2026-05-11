@@ -1,0 +1,33 @@
+---
+name: Daily Swing Trade Research
+
+"on":
+  schedule:
+    - cron: '0 13 * * 1-5'  # Run at 13:00 UTC (9:00 AM EST) Monday-Friday
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  initiate-research:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract Prompt and Create Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Extract the markdown prompt from README.md
+          # Assuming the prompt starts with "**System Role:**"
+          # and ends at the end of the markdown code block
+          awk_cmd='/^```markdown/{flag=1; next}'
+          awk_cmd="$awk_cmd /^\`\`\`/{if(flag){flag=0; exit}} flag"
+          PROMPT=$(awk "$awk_cmd" README.md)
+
+          # Create a new issue with the extracted prompt
+          gh issue create \
+            --title "Daily Swing Trade Research: $(date +'%Y-%m-%d')" \
+            --body "$PROMPT" \
+            --label "agent-trigger"
