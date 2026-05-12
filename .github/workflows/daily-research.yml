@@ -1,0 +1,31 @@
+---
+name: Daily Swing Trade Research
+
+"on":
+  schedule:
+    # At 12:00 UTC on every day-of-week from Monday through Friday.
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract Prompt and Create Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Extract prompt from README.md
+          awk '/```markdown/{flag=1; next} /```/{flag=0} flag' \
+            README.md > prompt.md
+
+          # Create GitHub Issue
+          gh issue create \
+            --title "Daily Swing Trade Research - $(date +'%Y-%m-%d')" \
+            --body-file prompt.md
