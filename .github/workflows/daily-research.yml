@@ -1,0 +1,24 @@
+---
+name: Daily Research Workflow
+
+"on":
+  schedule:
+    - cron: '0 8 * * 1-5'
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Extract Prompt and Create Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PROMPT=$(awk '/^```markdown/{flag=1; next} /^```/{
+            if(flag){flag=0; exit}
+          } flag' README.md)
+          gh issue create \
+            --title "Daily Research Prompt" \
+            --body "$PROMPT"
