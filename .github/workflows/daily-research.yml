@@ -1,0 +1,29 @@
+---
+name: Daily Swing Trade Research
+
+"on":
+  schedule:
+    - cron: '0 13 * * 1-5'  # 9:00 AM EST (13:00 UTC) Monday-Friday
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  create-research-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract Prompt from README and Create Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CMD='/^```markdown/{flag=1; next} /^```/{if(flag){flag=0; exit}} flag'
+          PROMPT=$(awk "$CMD" README.md)
+          DATE=$(date +'%Y-%m-%d')
+          gh issue create --title "Daily Research Trigger: $DATE" \
+            --body "$PROMPT" \
+            --label "automation" \
+            --label "research"
