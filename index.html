@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Picks Dashboard</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; --gain: #22c55e; --loss: #ef4444; }
+        body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; max-width: 800px; margin: auto; }
+        .card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        h1, h2 { color: var(--accent); margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #334155; }
+        th { text-transform: uppercase; font-size: 0.75rem; opacity: 0.7; }
+        .gain { color: var(--gain); font-weight: bold; }
+        .loss { color: var(--loss); font-weight: bold; }
+        .status-tag { padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+        .status-active { background: #1e40af; }
+        .status-hit { background: #166534; }
+        .status-stop { background: #991b1b; }
+        #latest-picks { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .pick-card { text-align: center; border: 1px solid #334155; padding: 10px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Stock Picks Monitor</h1>
+    
+    <div class="card">
+        <h2>Latest Top Picks</h2>
+        <div id="latest-picks">Loading...</div>
+    </div>
+
+    <div class="card">
+        <h2>Performance Audit Ledger</h2>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Ticker</th>
+                        <th>Status</th>
+                        <th>P/L</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="audit-table">
+                    <tr><td colspan="5">Loading audit data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                // Fetch the audit results from the generated JSON
+                const res = await fetch('audit_results.json?t=' + Date.now());
+                const data = await res.json();
+                
+                // Load Picks
+                const picksHtml = data.latest_picks.map(p => `
+                    <div class="pick-card">
+                        <div style="font-weight:bold; font-size:1.2rem;">${p.Ticker}</div>
+                        <div style="font-size:0.8rem; opacity:0.8;">Entry: $${p.Entry}</div>
+                        <div class="gain">$${p.TP}</div>
+                    </div>
+                `).join('');
+                document.getElementById('latest-picks').innerHTML = picksHtml;
+
+                // Load Audit Table
+                const tableHtml = data.audit.map(r => `
+                    <tr>
+                        <td>${r["Trade Date"]}</td>
+                        <td>${r.Ticker}</td>
+                        <td><span class="status-tag ${r.Status.includes('HIT') ? 'status-hit' : r.Status.includes('STOP') ? 'status-stop' : 'status-active'}">${r.Status}</span></td>
+                        <td class="${r["Current P/L"].startsWith('-') ? 'loss' : 'gain'}">${r["Current P/L"]}</td>
+                        <td style="font-size:0.8rem; opacity:0.8;">${r.Notes}</td>
+                    </tr>
+                `).join('');
+                document.getElementById('audit-table').innerHTML = tableHtml;
+
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        loadData();
+    </script>
+</body>
+</html>
