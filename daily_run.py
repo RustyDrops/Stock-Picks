@@ -69,9 +69,21 @@ if __name__ == "__main__":
     
     # Mocking new picks that Agent 3 would select
     new_picks = [
-        {"Ticker": "TSLA", "Entry": 180, "TP": 210, "SL": 170},
-        {"Ticker": "AMD", "Entry": 150, "TP": 180, "SL": 140},
-        {"Ticker": "MSFT", "Entry": 400, "TP": 460, "SL": 380}
+        {
+            "Ticker": "TSLA", "Entry": 180, "TP": 210, "SL": 170, 
+            "Size": "5%", "Horizon": "2-4 Weeks", 
+            "Reason": "Breaking out of falling wedge on daily chart with high relative strength."
+        },
+        {
+            "Ticker": "AMD", "Entry": 150, "TP": 180, "SL": 140, 
+            "Size": "3%", "Horizon": "1-2 Weeks", 
+            "Reason": "Sector momentum in semiconductors following positive earnings from peers."
+        },
+        {
+            "Ticker": "MSFT", "Entry": 400, "TP": 460, "SL": 380, 
+            "Size": "4%", "Horizon": "1 Month", 
+            "Reason": "Consolidating at all-time highs with strong institutional buying on dips."
+        }
     ]
     
     save_json_data(new_picks, audit_results)
