@@ -68,20 +68,24 @@ if __name__ == "__main__":
     audit_results = audit_trades(historical_picks)
     
     # Mocking new picks that Agent 3 would select
+    def calc_rr(entry, tp, sl):
+        try: return round((tp - entry) / (entry - sl), 2)
+        except: return 0
+
     new_picks = [
         {
             "Ticker": "TSLA", "Entry": 180, "TP": 210, "SL": 170, 
-            "Size": "5%", "Horizon": "2-4 Weeks", 
+            "Size": "5%", "Horizon": "2-4w", "RR": calc_rr(180, 210, 170),
             "Reason": "Breaking out of falling wedge on daily chart with high relative strength."
         },
         {
             "Ticker": "AMD", "Entry": 150, "TP": 180, "SL": 140, 
-            "Size": "3%", "Horizon": "1-2 Weeks", 
+            "Size": "3%", "Horizon": "1-2w", "RR": calc_rr(150, 180, 140),
             "Reason": "Sector momentum in semiconductors following positive earnings from peers."
         },
         {
             "Ticker": "MSFT", "Entry": 400, "TP": 460, "SL": 380, 
-            "Size": "4%", "Horizon": "1 Month", 
+            "Size": "4%", "Horizon": "1m", "RR": calc_rr(400, 460, 380),
             "Reason": "Consolidating at all-time highs with strong institutional buying on dips."
         }
     ]

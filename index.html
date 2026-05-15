@@ -23,15 +23,15 @@
         
         #latest-picks { display: flex; flex-direction: column; gap: 15px; }
         .pick-card { border: 1px solid #334155; padding: 15px; border-radius: 8px; position: relative; }
-        .pick-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 10px; }
-        .ticker-link { font-weight:bold; font-size:1.4rem; color:var(--accent); text-decoration: none; display: flex; align-items: center; gap: 5px; }
-        .ticker-link:after { content: '↗'; font-size: 0.8rem; }
-        .pick-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 0.85rem; }
-        @media (min-width: 500px) { .pick-stats { grid-template-columns: repeat(4, 1fr); } }
-        .pick-reason { font-size: 0.85rem; margin-top: 10px; padding: 10px; background: #0f172a; border-radius: 6px; font-style: italic; opacity: 0.9; line-height: 1.4; }
+        .pick-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 8px; margin-bottom: 8px; }
+        .ticker-link { font-weight:bold; font-size:1.2rem; color:var(--accent); text-decoration: none; }
+        .rr-badge { font-size: 0.75rem; background: #334155; padding: 2px 6px; border-radius: 4px; opacity: 0.9; }
+        .pick-stats { display: flex; justify-content: space-between; font-size: 0.75rem; gap: 5px; }
+        .pick-stats > div { text-align: center; flex: 1; }
+        .pick-reason { font-size: 0.8rem; margin-top: 8px; padding: 8px; background: #0f172a; border-radius: 6px; font-style: italic; opacity: 0.8; line-height: 1.3; }
         
         /* Expandable Chart Section */
-        .expand-btn { width: 100%; background: #334155; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .expand-btn { width: 100%; background: #334155; color: white; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.85rem; margin-top: 10px; }
         #performance-view { display: none; margin-top: 20px; }
         canvas { max-width: 100%; height: auto !important; }
     </style>
@@ -52,8 +52,8 @@
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Ticker</th>
-                        <th>Status</th>
+                        <th>Tkr</th>
+                        <th>Stat</th>
                         <th>P/L</th>
                     </tr>
                 </thead>
@@ -84,11 +84,12 @@
                 const data = await res.json();
                 window.auditData = data.audit;
 
-                // Load Detailed Picks
+                // Load High-Density Picks
                 const picksHtml = data.latest_picks.map(p => `
                     <div class="pick-card">
                         <div class="pick-header">
                             <a href="https://www.tradingview.com/symbols/${p.Ticker}" target="_blank" class="ticker-link">${p.Ticker}</a>
+                            <span class="rr-badge">RR: ${p.RR}</span>
                             <span class="badge">${p.Horizon}</span>
                         </div>
                         <div class="pick-stats">
@@ -102,12 +103,12 @@
                 `).join('');
                 document.getElementById('latest-picks').innerHTML = picksHtml;
 
-                // Load Audit Table (Simpler for mobile)
+                // Load Audit Table
                 const tableHtml = data.audit.map(r => `
                     <tr>
                         <td>${r["Trade Date"].slice(5)}</td>
                         <td style="font-weight:bold;">${r.Ticker}</td>
-                        <td><span class="status-tag ${r.Status.includes('HIT') ? 'status-hit' : r.Status.includes('STOP') ? 'status-stop' : 'status-active'}">${r.Status.split(' ')[0]}</span></td>
+                        <td><span class="status-tag ${r.Status.includes('HIT') ? 'status-hit' : r.Status.includes('STOP') ? 'status-stop' : 'status-active'}" style="font-size:0.6rem;">${r.Status.split(' ')[0]}</span></td>
                         <td class="${r["Current P/L"].startsWith('-') ? 'loss' : 'gain'}">${r["Current P/L"]}</td>
                     </tr>
                 `).join('');
