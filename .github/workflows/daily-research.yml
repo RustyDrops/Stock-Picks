@@ -18,6 +18,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          DAY=$(date +%u)
+          if [ "$DAY" -eq 6 ] || [ "$DAY" -eq 7 ]; then
+            echo "Today is a weekend. Doing nothing."
+            exit 0
+          fi
+
           PROMPT=$(awk '/```markdown/{flag=1; next} /```/{flag=0} flag' \
             README.md)
           gh issue create \
