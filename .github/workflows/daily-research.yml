@@ -1,0 +1,26 @@
+---
+name: Daily Swing Trade Research
+"on":
+  schedule:
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  initiate-research:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract Prompt and Create Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PROMPT=$(awk '/```markdown/{flag=1; next} /```/{flag=0} flag' \
+            README.md)
+          gh issue create \
+            --title "Daily Research Workflow: $(date +'%Y-%m-%d')" \
+            --body "$PROMPT" \
+            --label "research"
