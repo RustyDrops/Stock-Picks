@@ -99,3 +99,7 @@ if __name__ == "__main__":
         f.write("## Performance Audit\n| Date | Ticker | Status | P/L | Notes |\n|---|---|---|---|---|\n")
         for r in audit_results:
             f.write(f"| {r['Trade Date']} | {r['Ticker']} | {r['Status']} | {r['Current P/L']} | {r['Notes']} |\n")
+        
+        f.write("\n## Latest Picks\n| Ticker | Entry | TP | SL | RR | Horizon | Reason |\n|---|---|---|---|---|---|---|\n")
+        for p in new_picks:
+            f.write(f"| {p['Ticker']} | {p['Entry']} | {p['TP']} | {p['SL']} | {p['RR']} | {p['Horizon']} | {p['Reason']} |\n")
