@@ -1,1 +1,128 @@
-{"latest_picks": [{"Ticker": "TSLA", "Entry": 180, "TP": 210, "SL": 170, "Size": "5%", "Horizon": "2-4w", "RR": 3.0, "Reason": "Breaking out of falling wedge on daily chart with high relative strength."}, {"Ticker": "AMD", "Entry": 150, "TP": 180, "SL": 140, "Size": "3%", "Horizon": "1-2w", "RR": 3.0, "Reason": "Sector momentum in semiconductors following positive earnings from peers."}, {"Ticker": "MSFT", "Entry": 400, "TP": 460, "SL": 380, "Size": "4%", "Horizon": "1m", "RR": 3.0, "Reason": "Consolidating at all-time highs with strong institutional buying on dips."}], "audit": [{"Trade Date": "2026-04-25", "Ticker": "NVDA", "Status": "CLOSED (TRAILING SL)", "Current P/L": "24.84%", "Notes": "Trailing Stop hit at 224.71."}, {"Trade Date": "2026-04-27", "Ticker": "AAPL", "Status": "TARGET HIT (TRAILING)", "Current P/L": "14.75%", "Notes": "Target hit! Trailing active at 288.04."}], "last_updated": "2026-05-18 14:54"}
+{
+  "latest_picks": [
+    {
+      "Ticker": "TSLA",
+      "Entry": 410.0,
+      "TP": 435.0,
+      "SL": 385.0,
+      "RR": 1.0,
+      "Horizon": "1-3w",
+      "Reason": "TSLA exhibits a strong bullish trend with its price significantly above the 50-day SMA, indicating robust upward momentum. The RSI at 62.1 suggests healthy buying pressure without being overbought, implying further room for appreciation. This confluence of factors points to a high-probability continuation trade.",
+      "ReportDate": "2026-05-19",
+      "Size": "5%"
+    },
+    {
+      "Ticker": "MSFT",
+      "Entry": 423.54,
+      "TP": 435.0,
+      "SL": 415.0,
+      "RR": 1.34,
+      "Horizon": "1-3w",
+      "Reason": "MSFT is in a strong bullish trend, trading significantly above its 50-day Simple Moving Average (SMA50), which acts as dynamic support. The RSI is at a neutral 46.17, indicating the stock is not overbought and has room for further upside without immediate reversal pressure. This setup suggests a continuation of the current bullish momentum.",
+      "ReportDate": "2026-05-19",
+      "Size": "5%"
+    },
+    {
+      "Ticker": "META",
+      "Entry": 611.21,
+      "TP": 621.14,
+      "SL": 605.0,
+      "RR": 1.6,
+      "Horizon": "1-3w",
+      "Reason": "META is significantly oversold (RSI 26.19) within a bearish trend, indicating a high probability of a short-term bounce towards the 50-day SMA. The entry is at the current price, with the 50-day SMA as a logical target for a bounce, and a tight stop loss to manage risk.",
+      "ReportDate": "2026-05-19",
+      "Size": "5%"
+    }
+  ],
+  "audit": [
+    {
+      "Trade Date": "2026-04-25",
+      "Ticker": "NVDA",
+      "Status": "CLOSED (TRAILING SL)",
+      "Current P/L": "24.84%",
+      "Notes": "Trailing Stop hit at 224.71."
+    },
+    {
+      "Trade Date": "2026-04-27",
+      "Ticker": "AAPL",
+      "Status": "TARGET HIT (TRAILING)",
+      "Current P/L": "14.55%",
+      "Notes": "Target hit! Trailing active at 288.04."
+    },
+    {
+      "Trade Date": "2026-05-19",
+      "Ticker": "TSLA",
+      "Status": "ACTIVE",
+      "Current P/L": "-0.00%",
+      "Notes": "Maintaining above support."
+    },
+    {
+      "Trade Date": "2026-05-19",
+      "Ticker": "MSFT",
+      "Status": "ACTIVE",
+      "Current P/L": "0.00%",
+      "Notes": "Maintaining above support."
+    },
+    {
+      "Trade Date": "2026-05-19",
+      "Ticker": "META",
+      "Status": "ACTIVE",
+      "Current P/L": "0.00%",
+      "Notes": "Maintaining above support."
+    },
+    {
+      "Trade Date": "2026-05-19",
+      "Ticker": "AMZN",
+      "Status": "ACTIVE",
+      "Current P/L": "-0.00%",
+      "Notes": "Maintaining above support."
+    }
+  ],
+  "last_updated": "2026-05-19 13:26",
+  "full_history": [
+    {
+      "Ticker": "TSLA",
+      "Entry": 410.0,
+      "TP": 435.0,
+      "SL": 385.0,
+      "RR": 1.0,
+      "Horizon": "1-3w",
+      "Reason": "TSLA exhibits a strong bullish trend with its price significantly above the 50-day SMA, indicating robust upward momentum. The RSI at 62.1 suggests healthy buying pressure without being overbought, implying further room for appreciation. This confluence of factors points to a high-probability continuation trade.",
+      "ReportDate": "2026-05-19",
+      "Size": "5%"
+    },
+    {
+      "Ticker": "MSFT",
+      "Entry": 423.54,
+      "TP": 435.0,
+      "SL": 415.0,
+      "RR": 1.34,
+      "Horizon": "1-3w",
+      "Reason": "MSFT is in a strong bullish trend, trading significantly above its 50-day Simple Moving Average (SMA50), which acts as dynamic support. The RSI is at a neutral 46.17, indicating the stock is not overbought and has room for further upside without immediate reversal pressure. This setup suggests a continuation of the current bullish momentum.",
+      "ReportDate": "2026-05-19",
+      "Size": "5%"
+    },
+    {
+      "Ticker": "META",
+      "Entry": 611.21,
+      "TP": 621.14,
+      "SL": 605.0,
+      "RR": 1.6,
+      "Horizon": "1-3w",
+      "Reason": "META is significantly oversold (RSI 26.19) within a bearish trend, indicating a high probability of a short-term bounce towards the 50-day SMA. The entry is at the current price, with the 50-day SMA as a logical target for a bounce, and a tight stop loss to manage risk.",
+      "ReportDate": "2026-05-19",
+      "Size": "5%"
+    },
+    {
+      "Ticker": "AMZN",
+      "Entry": 264.86,
+      "TP": 295.0,
+      "SL": 248.5,
+      "RR": 1.84,
+      "Horizon": "1-3w",
+      "Reason": "Stock is trading above the 50-day SMA with a bullish trend and a neutral-to-positive RSI (56.7), indicating room for further upside momentum before reaching overbought territory.",
+      "ReportDate": "2026-05-19",
+      "Size": "5%"
+    }
+  ]
+}
